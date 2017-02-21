@@ -16,7 +16,7 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><a href=""></a></li>
+            <li><%= link "Projects", to: project_path(@conn, :index) %></li>
           </ul>
         </nav>
         <span class="logo"></span>
