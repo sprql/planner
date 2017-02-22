@@ -5,7 +5,7 @@ defmodule Planner.Project do
 
   schema "projects" do
     field :name, :string
-    field :tags, {:array, :string}
+    field :tags, Planner.Tags
 
     timestamps()
   end
@@ -15,7 +15,7 @@ defmodule Planner.Project do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name])
+    |> cast(params, [:name, :tags])
     |> validate_required([:name])
   end
 end
