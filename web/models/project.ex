@@ -5,7 +5,7 @@ defmodule Planner.Project do
 
   schema "projects" do
     field :name, :string
-    field :tags, Planner.Tags
+    field :tags, Planner.Tags, default: []
 
     timestamps()
   end

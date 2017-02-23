@@ -3,7 +3,7 @@ defmodule Planner.Tags do
 
   def type, do: {:array, :string}
 
-  def cast(nil), do: {:ok, nil}
+  def cast(nil), do: {:ok, []}
   def cast(arr) when is_list(arr) do
     if Enum.all?(arr, &String.valid?/1), do: {:ok, arr}, else: :error
   end

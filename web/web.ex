@@ -51,6 +51,8 @@ defmodule Planner.Web do
 
       import Planner.Router.Helpers
       import Planner.ErrorHelpers
+      import Planner.InputHelpers
+      import Planner.TagHelpers
       import Planner.Gettext
     end
   end

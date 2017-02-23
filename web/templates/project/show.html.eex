@@ -9,7 +9,7 @@
 
   <li>
     <strong>Tags:</strong>
-    <%= Enum.join(@project.tags, ", ") %>
+    <%= list_as_string(@project.tags) %>
   </li>
 
 </ul>
