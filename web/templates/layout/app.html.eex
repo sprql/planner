@@ -13,16 +13,18 @@
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><%= link "Projects", to: project_path(@conn, :index) %></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+    <header class="navbar navbar-light bg-faded">
+      <nav class="container">
+        <a class="navbar-brand" href="/">Planner</a>
+        <div class="navbar-nav">
+          <li class="nav-item">
+            <%= link "Projects", to: project_path(@conn, :index), class: "nav-link" %>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
+    <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 

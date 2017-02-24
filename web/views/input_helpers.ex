@@ -9,7 +9,10 @@ defmodule Planner.InputHelpers do
   Input for list.
   """
   def array_input(form, field, opts \\ []) do
-    values = Phoenix.HTML.Form.input_value(form, field) |> Enum.join(", ")
+    values = case Phoenix.HTML.Form.input_value(form, field) do
+               val when is_list(val) -> Enum.join(val, ", ")
+               val -> val
+             end
 
     opts =
       opts

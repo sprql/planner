@@ -7,7 +7,10 @@ defmodule Planner.Tags do
   def cast(arr) when is_list(arr) do
     if Enum.all?(arr, &String.valid?/1), do: {:ok, arr}, else: :error
   end
-  def cast(str) when is_binary(str), do: {:ok, String.split(str, ",") |> Enum.map(&String.trim/1)}
+  def cast(str) when is_binary(str) do
+    list = String.split(str, ",", trim: true) |> Enum.map(&String.trim/1) |> Enum.reject(&(&1 == ""))
+    {:ok, list}
+  end
   def cast(_), do: :error
 
   def dump(val) when is_list(val), do: {:ok, val}
