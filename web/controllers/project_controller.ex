@@ -28,7 +28,7 @@ defmodule Planner.ProjectController do
 
   def show(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
-    render(conn, "show.html", project: project)
+    render(conn, "show.html", project: project, current_project: project)
   end
 
   def edit(conn, %{"id" => id}) do
