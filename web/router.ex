@@ -18,7 +18,11 @@ defmodule Planner.Router do
 
     get "/", ProjectController, :index
 
-    resources "/projects", ProjectController
+    resources "/projects", ProjectController do
+      resources "/todo-lists", TodoListController, only: [:index, :new, :create]
+    end
+
+    resources "/todo-lists", TodoListController, only: [:show, :edit, :update, :delete]
   end
 
   # Other scopes may use custom stacks.
