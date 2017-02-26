@@ -19,6 +19,7 @@ defmodule Planner.TodoListController do
 
   def create(conn, %{"todo_list" => todo_list_params}) do
     changeset = TodoList.changeset(%TodoList{}, todo_list_params)
+
     case Repo.insert(changeset) do
       {:ok, todo_list} ->
         conn
@@ -68,12 +69,16 @@ defmodule Planner.TodoListController do
 
   defp assign_current_project(conn, _) do
     current_project = Repo.get!(Project, conn.params["project_id"])
+
     assign(conn, :current_project, current_project)
   end
 
   defp assign_current_todo_list(conn, _) do
-    todo_list = Repo.get!(TodoList, conn.params["id"]) |> Repo.preload([:project])
-    assign(conn, :todo_list, todo_list)
+    todo_list =
+      Repo.get!(TodoList, conn.params["id"])
+      |> Repo.preload([:project])
+
+    conn = assign(conn, :todo_list, todo_list)
     assign(conn, :current_project, todo_list.project)
   end
 end

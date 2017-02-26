@@ -7,6 +7,7 @@ defmodule Planner.TodoList do
     field :position, :integer, default: 0
     field :state, :string
     belongs_to :project, Planner.Project
+    has_many :todo_items, Planner.TodoItem
 
     timestamps()
   end

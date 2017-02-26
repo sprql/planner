@@ -22,7 +22,11 @@ defmodule Planner.Router do
       resources "/todo-lists", TodoListController, only: [:index, :new, :create]
     end
 
-    resources "/todo-lists", TodoListController, only: [:show, :edit, :update, :delete]
+    resources "/todo-lists", TodoListController, only: [:show, :edit, :update, :delete] do
+      resources "/todo-items", TodoItemController, only: [:index, :new, :create]
+    end
+
+    resources "/todo-items", TodoItemController, only: [:show, :edit, :update, :delete]
   end
 
   # Other scopes may use custom stacks.

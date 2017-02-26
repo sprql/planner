@@ -1,0 +1,23 @@
+<h2>Show todo item</h2>
+
+<ul>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @todo_item.content %>
+  </li>
+
+  <li>
+    <strong>State:</strong>
+    <%= @todo_item.state %>
+  </li>
+
+  <li>
+    <strong>Position:</strong>
+    <%= @todo_item.position %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: todo_item_path(@conn, :edit, @todo_item) %></span>
+<span><%= link "Back", to: todo_list_todo_item_path(@conn, :index, @todo_list) %></span>
