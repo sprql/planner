@@ -3,4 +3,4 @@
 <%= render "form.html", changeset: @changeset,
                         action: todo_list_path(@conn, :update, @todo_list) %>
 
-<span><%= link "Back", to: project_path(@conn, :show, @current_project) %></span>
+<span><%= link "Back", to: project_path(@conn, :show, @project) %></span>

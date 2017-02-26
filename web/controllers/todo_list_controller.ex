@@ -4,7 +4,7 @@ defmodule Planner.TodoListController do
   alias Planner.TodoList
   alias Planner.Project
 
-  plug :assign_current_project when action in [:index, :new, :create]
+  plug :assign_project when action in [:index, :new, :create]
   plug :assign_current_todo_list when action in [:show, :edit, :update, :delete]
 
   def index(conn, _params) do
@@ -13,7 +13,7 @@ defmodule Planner.TodoListController do
   end
 
   def new(conn, _params) do
-    changeset = TodoList.changeset(%TodoList{project_id: conn.assigns[:current_project].id})
+    changeset = TodoList.changeset(%TodoList{project_id: conn.assigns[:project].id})
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -67,10 +67,10 @@ defmodule Planner.TodoListController do
     |> redirect(to: project_path(conn, :show, todo_list.project_id))
   end
 
-  defp assign_current_project(conn, _) do
-    current_project = Repo.get!(Project, conn.params["project_id"])
+  defp assign_project(conn, _) do
+    project = Repo.get!(Project, conn.params["project_id"])
 
-    assign(conn, :current_project, current_project)
+    assign(conn, :project, project)
   end
 
   defp assign_current_todo_list(conn, _) do
@@ -79,6 +79,6 @@ defmodule Planner.TodoListController do
       |> Repo.preload([:project])
 
     conn = assign(conn, :todo_list, todo_list)
-    assign(conn, :current_project, todo_list.project)
+    assign(conn, :project, todo_list.project)
   end
 end

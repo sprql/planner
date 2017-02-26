@@ -30,5 +30,5 @@
 </ul>
 
 <span><%= link "Edit", to: todo_list_path(@conn, :edit, @todo_list) %></span>
-<span><%= link "Back", to: project_todo_list_path(@conn, :index, @current_project) %></span>
+<span><%= link "Back", to: project_todo_list_path(@conn, :index, @project) %></span>
 <span><%= link "New todo item", to: todo_list_todo_item_path(@conn, :new, @todo_list) %></span>

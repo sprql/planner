@@ -3,6 +3,8 @@ defmodule Planner.ProjectController do
 
   alias Planner.Project
 
+  plug :assign_nil_project when action in [:index, :new, :create]
+
   def index(conn, _params) do
     projects = Repo.all(Project)
     render(conn, "index.html", projects: projects)
@@ -28,7 +30,7 @@ defmodule Planner.ProjectController do
 
   def show(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
-    render(conn, "show.html", project: project, current_project: project)
+    render(conn, "show.html", project: project, project: project)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -61,5 +63,9 @@ defmodule Planner.ProjectController do
     conn
     |> put_flash(:info, "Project deleted successfully.")
     |> redirect(to: project_path(conn, :index))
+  end
+
+  defp assign_nil_project(conn, _opts) do
+    assign(conn, :project, nil)
   end
 end

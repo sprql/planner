@@ -17,10 +17,9 @@
       <div class="container">
         <nav class="nav">
           <%= link "", to: project_path(@conn, :index), class: "navbar-brand logo" %>
-          <%= if @current_project do %>
-            <% current_project = @current_project %>
-            <%= link current_project.name, to: project_path(@conn, :show, current_project), class: "nav-item nav-link" %>
-            <%= link "[edit]", to: project_path(@conn, :edit, current_project), class: "nav-item nav-link" %>
+          <%= if @project do %>
+            <%= link @project.name, to: project_path(@conn, :show, @project), class: "nav-item nav-link" %>
+            <%= link "[edit]", to: project_path(@conn, :edit, @project), class: "nav-item nav-link" %>
           <% end %>
         </nav>
       </div>

@@ -1,7 +1,7 @@
 <h2>Listing todo lists</h2>
 
 <p>
-  <%= link "New Todo List", to: project_todo_list_path(@conn, :new, @current_project), class: "btn btn-default btn-xs" %>
+  <%= link "New Todo List", to: project_todo_list_path(@conn, :new, @project), class: "btn btn-default btn-xs" %>
 </p>
 
 <table class="table">

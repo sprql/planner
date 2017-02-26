@@ -73,7 +73,7 @@ defmodule Planner.TodoItemController do
       |> Repo.preload([:project])
 
     conn = assign(conn, :todo_list, todo_list)
-    assign(conn, :current_project, todo_list.project)
+    assign(conn, :project, todo_list.project)
   end
 
   defp assign_current_todo_item(conn, _) do
@@ -83,6 +83,6 @@ defmodule Planner.TodoItemController do
 
     conn = assign(conn, :todo_item, todo_item)
     conn = assign(conn, :todo_list, todo_item.todo_list)
-    assign(conn, :current_project, todo_item.todo_list.project)
+    assign(conn, :project, todo_item.todo_list.project)
   end
 end
