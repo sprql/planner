@@ -4,7 +4,7 @@ defmodule Planner.Project do
   schema "projects" do
     field :name, :string
     field :tags, Planner.Tags, default: []
-    has_many :todo_lists, Planner.Project
+    has_many :todo_lists, Planner.TodoList
 
     timestamps()
   end
