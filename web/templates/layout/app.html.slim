@@ -1,0 +1,30 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+    meta content="width=device-width, initial-scale=1" name="viewport"
+    meta content="" name="description"
+    meta content="" name="author"
+    title Planner
+    link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"
+    link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"
+    link rel="stylesheet" href="#{static_path(@conn, "/css/app.css")}"
+
+  body
+    header class="navbar"
+      div class="container"
+        nav class="nav"
+          = link "", to: project_path(@conn, :index), class: "navbar-brand logo"
+          = if @project do
+            = link @project.name, to: project_path(@conn, :show, @project), class: "nav-item nav-link"
+            = link "[edit]", to: project_path(@conn, :edit, @project), class: "nav-item nav-link"
+
+    div class="container"
+      p.alert.alert-info role="alert"= get_flash(@conn, :info)
+      p.alert.alert-danger role="alert"= get_flash(@conn, :error)
+
+      main role="main"
+        = render @view_module, @view_template, assigns
+
+    script src="#{static_path(@conn, "/js/app.js")}"
