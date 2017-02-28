@@ -29,8 +29,13 @@ defmodule Planner.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id)
-    render(conn, "show.html", project: project, project: project)
+    project =
+      Repo.get!(Project, id)
+      |> Repo.preload(:todo_lists)
+
+    todo_list = List.first(project.todo_lists) |> Repo.preload(:todo_items)
+
+    render(conn, "show.html", project: project, todo_list: todo_list)
   end
 
   def edit(conn, %{"id" => id}) do

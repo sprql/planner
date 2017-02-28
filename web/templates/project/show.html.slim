@@ -1,0 +1,21 @@
+div class="row"
+  div class="col col-md-3"
+    aside class="sidebar"
+      ul class=""
+        = for todo_list <- @project.todo_lists do
+          li = link(todo_list.name, to: todo_list_path(@conn, :show, todo_list))
+
+  div class="col col-md-9"
+    div class="card todo-list"
+      div class="card-header"
+        h3 class="card-title" = @todo_list.name
+        ul class="nav nav-pills card-header-pills"
+          li class="nav-item"
+            = link "New todo item", to: todo_list_todo_item_path(@conn, :new, @todo_list), class: "nav-link"
+          li class="nav-item"
+            = link "Edit", to: todo_list_path(@conn, :edit, @todo_list), class: "nav-link"
+
+      div class="card-block"
+        ul
+          = for todo_item <- @todo_list.todo_items do
+            li = todo_item.content

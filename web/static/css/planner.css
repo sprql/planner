@@ -1,6 +1,9 @@
 body {
     font-family: 'Lato', sans-serif;
+    background: #f5f0f0;
 }
+
+a { color: #f15438; }
 
 .navbar {
     margin: 0 0 1rem;
@@ -15,3 +18,10 @@ body {
 }
 
 .alert:empty { display: none; }
+
+.card.todo-list .card-header {
+    background-color: #fff;
+}
+.card.todo-list .card-title {
+    color: #f15438;
+}
