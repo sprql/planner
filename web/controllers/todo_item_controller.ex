@@ -24,7 +24,7 @@ defmodule Planner.TodoItemController do
       {:ok, todo_item} ->
         conn
         |> put_flash(:info, "Todo item created successfully.")
-        |> redirect(to: todo_item_path(conn, :show, todo_item))
+        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

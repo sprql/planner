@@ -22,6 +22,17 @@ a { color: #f15438; }
 .card.todo-list .card-header {
     background-color: #fff;
 }
+
 .card.todo-list .card-title {
     color: #f15438;
+}
+
+.todo-list .todo-items {
+    margin: 0;
+    padding: 0 0 0 1rem;
+    list-style: none;
+}
+
+.todo-list .todo-items .form-check-input {
+    cursor: pointer;
 }
