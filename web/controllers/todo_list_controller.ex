@@ -32,7 +32,8 @@ defmodule Planner.TodoListController do
 
   def show(conn, %{"id" => id}) do
     todo_list =
-      Repo.get!(TodoList, id)
+      TodoList
+      |> Repo.get!(id)
       |> Repo.preload(:todo_items)
     render(conn, Planner.ProjectView, "show.html", todo_list: todo_list)
   end
@@ -77,7 +78,8 @@ defmodule Planner.TodoListController do
 
   defp assign_current_todo_list(conn, _) do
     todo_list =
-      Repo.get!(TodoList, conn.params["id"])
+      TodoList
+      |> Repo.get!(conn.params["id"])
       |> Repo.preload(project: :todo_lists)
 
     conn = assign(conn, :todo_list, todo_list)

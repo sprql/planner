@@ -69,7 +69,8 @@ defmodule Planner.TodoItemController do
 
   defp assign_current_todo_list(conn, _) do
     todo_list =
-      Repo.get!(TodoList, conn.params["todo_list_id"])
+      TodoList
+      |> Repo.get!(conn.params["todo_list_id"])
       |> Repo.preload([:project])
 
     conn = assign(conn, :todo_list, todo_list)
@@ -78,11 +79,13 @@ defmodule Planner.TodoItemController do
 
   defp assign_current_todo_item(conn, _) do
     todo_item =
-      Repo.get!(TodoItem, conn.params["id"])
+      TodoItem
+      |> Repo.get!(conn.params["id"])
       |> Repo.preload([todo_list: :project])
 
-    conn = assign(conn, :todo_item, todo_item)
-    conn = assign(conn, :todo_list, todo_item.todo_list)
-    assign(conn, :project, todo_item.todo_list.project)
+    conn
+    |> assign(:todo_item, todo_item)
+    |> assign(:todo_list, todo_item.todo_list)
+    |> assign(:project, todo_item.todo_list.project)
   end
 end
