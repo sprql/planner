@@ -10,10 +10,10 @@ config :planner,
   ecto_repos: [Planner.Repo]
 
 # Configures the endpoint
-config :planner, Planner.Endpoint,
+config :planner, Planner.Web.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "wz+EDcy2ILD8IZhuFIVIvUHHN43SWDy2xpc7Fw9K3SNqFHk0it+V1/ggpg+qR0CH",
-  render_errors: [view: Planner.ErrorView, accepts: ~w(html json)],
+  secret_key_base: "zbdLUeZtFR3eC5OYzb/i9j9gq231FindnKXLQUhaS556JRNGjpwZ1uPsZ6+DRBcF",
+  render_errors: [view: Planner.Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Planner.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
@@ -21,6 +21,10 @@ config :planner, Planner.Endpoint,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+# Configure phoenix generators
+config :phoenix, :generators,
+  binary_id: true
 
 config :phoenix, :template_engines,
   slim: PhoenixSlime.Engine,

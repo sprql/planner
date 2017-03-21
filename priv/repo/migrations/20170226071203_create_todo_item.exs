@@ -1,4 +1,4 @@
-defmodule Planner.Repo.Migrations.CreateTodoItem do
+defmodule Planner.Repo.Migrations.CreatePlanner.Todo.Item do
   use Ecto.Migration
 
   def change do
