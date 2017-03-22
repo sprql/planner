@@ -1,4 +1,4 @@
-<h2>Listing todo item</h2>
+<h2>Listing todo items</h2>
 
 <table class="table">
   <thead>
@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-<%= for todo_item <- @todo_item do %>
+<%= for todo_item <- @todo_items do %>
     <tr>
       <td><%= todo_item.content %></td>
       <td><%= todo_item.state %></td>

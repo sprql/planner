@@ -33,16 +33,15 @@ defmodule Planner.Web.TodoListController do
   end
 
   def edit(conn, %{"id" => id}) do
-    todo_list = Repo.get!(Todo.List, id)
-    changeset = List.changeset(todo_list)
+    todo_list = Todo.get_todo_list!(id)
+    changeset = Todo.change_todo_list(todo_list)
     render(conn, "edit.html", todo_list: todo_list, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "list" => todo_list_params}) do
-    todo_list = Repo.get!(Todo.List, id)
-    changeset = List.changeset(todo_list, todo_list_params)
+    todo_list = Todo.get_todo_list!(id)
 
-    case Repo.update(changeset) do
+    case Todo.update_todo_list(todo_list, todo_list_params) do
       {:ok, todo_list} ->
         conn
         |> put_flash(:info, "Todo list updated successfully.")

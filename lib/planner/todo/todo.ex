@@ -74,9 +74,12 @@ defmodule Planner.Todo do
     Repo.delete(list)
   end
 
-  def project_change_todo_list(%Project{} = project) do
-    %List{}
-    |> todo_list_changeset(%{project_id: project.id})
+  def new_project_todo_list(%Project{} = project) do
+    todo_list_changeset(%List{}, %{project_id: project.id})
+  end
+
+  def change_todo_list(%List{} = list) do
+    todo_list_changeset(list, %{})
   end
 
   defp todo_list_changeset(%List{} = list, attrs) do

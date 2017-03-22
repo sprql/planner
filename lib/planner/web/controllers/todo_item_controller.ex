@@ -8,7 +8,7 @@ defmodule Planner.Web.TodoItemController do
   plug :assign_current_todo_item when action in [:show, :edit, :update, :delete]
 
   def index(conn, _params) do
-    todo_items = Todo.todo_list_items(conn.assign.todo_list)
+    todo_items = Todo.todo_list_items(conn.assigns.todo_list)
     render(conn, "index.html", todo_items: todo_items)
   end
 
@@ -38,26 +38,22 @@ defmodule Planner.Web.TodoItemController do
     render(conn, "edit.html", todo_item: todo_item, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "todo_item" => todo_item_params}) do
-    todo_item = Repo.get!(Item, id)
-    changeset = Item.changeset(todo_item, todo_item_params)
+  def update(conn, %{"id" => id, "item" => todo_item_params}) do
+    todo_item = Todo.get_todo_item!(id)
 
-    case Repo.update(changeset) do
-      {:ok, todo_item} ->
+    case Todo.update_todo_item(todo_item, todo_item_params) do
+      {:ok, project} ->
         conn
         |> put_flash(:info, "Todo item updated successfully.")
         |> redirect(to: todo_item_path(conn, :show, todo_item))
-      {:error, changeset} ->
+      {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", todo_item: todo_item, changeset: changeset)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    todo_item = Repo.get!(Item, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(todo_item)
+    todo_item = Todo.get_todo_item!(id)
+    {:ok, _todo_item} = Todo.delete_todo_item(todo_item)
 
     conn
     |> put_flash(:info, "Todo item deleted successfully.")

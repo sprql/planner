@@ -3,6 +3,7 @@ div class="row"
     div class="card todo-list"
       div class="card-header"
         h3 class="card-title" = @todo_list.name
+        p = @todo_list.description
         ul class="nav nav-pills card-header-pills"
           li class="nav-item"
             = link "New todo item", to: todo_list_todo_item_path(@conn, :new, @todo_list), class: "nav-link"
