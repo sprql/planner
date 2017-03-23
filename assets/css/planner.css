@@ -20,12 +20,8 @@ a:hover { color: #EB3A1A; }
 
 .alert:empty { display: none; }
 
-.card.todo-list .card-header {
-    background-color: #fff;
-}
-
 .card.todo-list .card-title {
-    color: #f15438;
+    color: #333;
 }
 
 .todo-list .todo-items {
