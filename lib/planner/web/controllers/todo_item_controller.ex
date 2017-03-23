@@ -33,8 +33,8 @@ defmodule Planner.Web.TodoItemController do
   end
 
   def edit(conn, %{"id" => id}) do
-    todo_item = Repo.get!(Item, id)
-    changeset = Item.changeset(todo_item)
+    todo_item = Todo.get_todo_item!(id)
+    changeset = Todo.change_todo_item(todo_item)
     render(conn, "edit.html", todo_item: todo_item, changeset: changeset)
   end
 
