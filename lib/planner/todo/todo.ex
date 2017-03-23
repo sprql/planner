@@ -91,7 +91,7 @@ defmodule Planner.Todo do
   alias Planner.Todo.Item
 
   def todo_list_items(%List{} = todo_list) do
-    Repo.preload(todo_list, :todo_items).todo_items
+    Repo.preload(todo_list, todo_items: from(ti in Item, order_by: [desc: ti.state])).todo_items
   end
 
   def get_todo_item!(id) do
