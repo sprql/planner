@@ -33,3 +33,11 @@ a:hover { color: #EB3A1A; }
 .todo-list .todo-items .form-check-input {
     cursor: pointer;
 }
+
+.card-new-project-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    &:hover { text-decoration: none; }
+}
