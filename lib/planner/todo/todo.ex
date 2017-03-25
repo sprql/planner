@@ -4,9 +4,9 @@ defmodule Planner.Todo do
   """
 
   import Ecto.{Query, Changeset}, warn: false
-  alias Planner.Repo
 
-  alias Planner.Todo.Project
+  alias Planner.Repo
+  alias Planner.Todo.{Project, List, Item}
 
   def list_projects do
     Repo.all(Project)
@@ -34,13 +34,19 @@ defmodule Planner.Todo do
     project_changeset(project, %{})
   end
 
+  def count_project_todo_items(%Project{} = project) do
+    query = from ti in Item,
+            join: tl in List, on: tl.id == ti.todo_list_id,
+            where: tl.project_id == ^project.id
+
+    Repo.aggregate(query, :count, :id)
+  end
+
   defp project_changeset(%Project{} = project, attrs) do
     project
     |> cast(attrs, [:name, :tags])
     |> validate_required([:name])
   end
-
-  alias Planner.Todo.List
 
   def project_todo_lists(project) do
     Repo.preload(project, :todo_lists).todo_lists()
@@ -87,8 +93,6 @@ defmodule Planner.Todo do
     |> cast(attrs, [:project_id, :name, :description, :position, :state])
     |> validate_required([:project_id, :name])
   end
-
-  alias Planner.Todo.Item
 
   def todo_list_items(%List{} = todo_list) do
     Repo.preload(todo_list, todo_items: from(ti in Item, order_by: [desc: ti.state])).todo_items

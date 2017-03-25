@@ -1,0 +1,22 @@
+h2 Projects
+
+div class="card-deck"
+  div class="card"
+    div class="card-block"
+      = link to: project_path(@conn, :new), class: "card-new-project-link" do
+        i class="fa fa-plus-circle fa-2x"
+        span New project
+
+  = for project <- @projects do
+    div class="card"
+      div class="card-block"
+        h5 class="card-title"
+          = link project.name, to: project_path(@conn, :show, project)
+
+        p class="card-text"
+          = list_as_string(project.tags)
+
+        small class="card-text text-muted"
+          = icon_tag("list")
+          = " "
+          = Todo.count_project_todo_items(project)
