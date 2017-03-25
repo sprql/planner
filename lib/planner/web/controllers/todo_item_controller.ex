@@ -2,7 +2,6 @@ defmodule Planner.Web.TodoItemController do
   use Planner.Web, :controller
 
   alias Planner.Todo
-  alias Planner.Todo.{List, Item}
 
   plug :assign_current_todo_list when action in [:index, :new, :create]
   plug :assign_current_todo_item when action in [:show, :edit, :update, :delete]
@@ -22,7 +21,7 @@ defmodule Planner.Web.TodoItemController do
       {:ok, todo_item} ->
         conn
         |> put_flash(:info, "Todo item created successfully.")
-        |> redirect(to: todo_item_path(conn, :show, todo_item))
+        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -42,7 +41,7 @@ defmodule Planner.Web.TodoItemController do
     todo_item = Todo.get_todo_item!(id)
 
     case Todo.update_todo_item(todo_item, todo_item_params) do
-      {:ok, project} ->
+      {:ok, todo_item} ->
         conn
         |> put_flash(:info, "Todo item updated successfully.")
         |> redirect(to: todo_item_path(conn, :show, todo_item))

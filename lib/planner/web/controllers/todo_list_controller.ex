@@ -2,7 +2,6 @@ defmodule Planner.Web.TodoListController do
   use Planner.Web, :controller
 
   alias Planner.Todo
-  alias Planner.Todo.List
 
   plug :assign_project when action in [:index, :new, :create]
   plug :assign_todo_list when action in [:show, :edit, :update, :delete]
@@ -52,11 +51,8 @@ defmodule Planner.Web.TodoListController do
   end
 
   def delete(conn, %{"id" => id}) do
-    todo_list = Repo.get!(Todo.List, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(todo_list)
+    todo_list = Todo.get_todo_list!(id)
+    {:ok, _todo_list} = Todo.delete_todo_list(todo_list)
 
     conn
     |> put_flash(:info, "Todo list deleted successfully.")
