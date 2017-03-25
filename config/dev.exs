@@ -56,3 +56,5 @@ config :planner, Planner.Repo,
   database: "planner_dev",
   hostname: "localhost",
   pool_size: 10
+
+# config :slime, :keep_lines, true
