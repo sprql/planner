@@ -41,6 +41,7 @@ defmodule Planner.Web do
       import Planner.Web.Gettext
       import Planner.Web.TagHelpers
       import Planner.Web.InputHelpers
+      import Planner.Web.IconHelpers
     end
   end
 
