@@ -15,13 +15,12 @@ div class="row"
               = form_for Todo.change_todo_item(todo_item), todo_item_path(@conn, :update, todo_item), fn f ->
                 = checkbox f, :state, class: "form-check-input", onchange: "submit()"
               span class="todo-item-content"
-                = if todo_item.state do
-                  span' class="todo-item-date label label-default"
+                = if todo_item.state == 1 do
+                  span class="todo-item-date label label-default"
                     = todo_item.updated_at
                 = link todo_item.content, to: todo_item_path(@conn, :edit, todo_item), class: "todo-item-link"
-
-      div class="card-footer"
-        = render Planner.Web.TodoItemView, "form.html", changeset: Todo.todo_list_change_item(@todo_list), action: todo_list_todo_item_path(@conn, :create, @todo_list)
+          li class="form-line"
+            = render Planner.Web.TodoItemView, "form.html", changeset: Todo.todo_list_change_item(@todo_list), action: todo_list_todo_item_path(@conn, :create, @todo_list)
 
   div class="col col-md-3 col-sm-3"
     aside class="sidebar"

@@ -41,3 +41,27 @@ a:hover { color: #EB3A1A; }
     flex-direction: column;
     &:hover { text-decoration: none; }
 }
+
+.form-line {
+    .form-control {
+        border-width: 0 0 1px;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        height: 1.25em;
+    }
+
+    ::placeholder {
+        color: #999;
+        font-weight: 300;
+    }
+
+    ::-webkit-input-placeholder {
+        color: #999;
+        font-weight: 300;
+    }
+
+    .btn {
+        margin-left: 30px;
+    }
+}

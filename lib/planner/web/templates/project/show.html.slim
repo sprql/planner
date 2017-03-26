@@ -18,8 +18,8 @@ div class="row"
                   = checkbox f, :state, class: "form-check-input", onchange: "submit()"
                 span class=""
                   = todo_item.content
-            li class="todo-item"
-              = link "New todo item", to: todo_list_todo_item_path(@conn, :new, todo_list)
+            li class="form-line"
+              = render Planner.Web.TodoItemView, "form.html", changeset: Todo.todo_list_change_item(todo_list), action: todo_list_todo_item_path(@conn, :create, todo_list)
 
   div class="col col-md-3 col-sm-3"
     aside class="sidebar"
