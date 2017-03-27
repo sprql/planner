@@ -20,18 +20,41 @@ a:hover { color: #EB3A1A; }
 
 .alert:empty { display: none; }
 
-.card.todo-list .card-title {
-    color: #333;
+.todo-list {
+    .card-header {
+        background: none;
+    }
+
+    .card-title,
+    .card-title a {
+        color: #333;
+    }
+
+    .todo-items {
+        margin: 0;
+        padding: 0 0 0 1rem;
+        list-style: none;
+    }
+
+    .todo-items .form-check-input {
+        cursor: pointer;
+    }
 }
 
-.todo-list .todo-items {
-    margin: 0;
-    padding: 0 0 0 1rem;
-    list-style: none;
-}
+.project-todo-lists {
+    .todo-list {
+        border-radius: 0;
+        border-top-width: 0;
+    }
 
-.todo-list .todo-items .form-check-input {
-    cursor: pointer;
+    .todo-list:first-child {
+        border-top-width: 1px;
+        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+    }
+
+    .todo-list:last-child {
+        border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+    }
 }
 
 .card-new-project-link {
