@@ -1,7 +1,0 @@
-<h2>Edit todo list</h2>
-
-<%= render "form.html", changeset: @changeset,
-                        action: todo_list_path(@conn, :update, @todo_list) %>
-
-<span class="float-right"><%= link "Delete", to: todo_list_path(@conn, :delete, @todo_list), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
-<span><%= link "Back", to: project_path(@conn, :show, @project) %></span>

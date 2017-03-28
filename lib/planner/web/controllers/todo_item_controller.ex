@@ -2,17 +2,16 @@ defmodule Planner.Web.TodoItemController do
   use Planner.Web, :controller
 
   alias Planner.Todo
-
-  plug :assign_current_todo_list when action in [:index, :new, :create]
-  plug :assign_current_todo_item when action in [:show, :edit, :update, :delete]
+  alias Planner.Todo.Item
 
   def index(conn, _params) do
-    todo_items = Todo.todo_list_items(conn.assigns.todo_list)
-    render(conn, "index.html", todo_items: todo_items)
+    todo_items = Todo.list_todo_items
+    completed_todo_items = Todo.list_completed_todo_items
+    render(conn, "index.html", todo_items: todo_items, completed_todo_items: completed_todo_items)
   end
 
   def new(conn, _params) do
-    changeset = Todo.todo_list_change_item(conn.assigns.todo_list)
+    changeset = Todo.change_todo_item(%Item{})
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -21,7 +20,7 @@ defmodule Planner.Web.TodoItemController do
       {:ok, todo_item} ->
         conn
         |> put_flash(:info, "Todo item created successfully.")
-        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
+        |> redirect(to: todo_path(conn, :show))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -44,7 +43,7 @@ defmodule Planner.Web.TodoItemController do
       {:ok, todo_item} ->
         conn
         |> put_flash(:info, "Todo item updated successfully.")
-        |> redirect(to: todo_item_path(conn, :show, todo_item))
+        |> redirect(to: todo_item_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", todo_item: todo_item, changeset: changeset)
     end
@@ -56,23 +55,6 @@ defmodule Planner.Web.TodoItemController do
 
     conn
     |> put_flash(:info, "Todo item deleted successfully.")
-    |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
-  end
-
-  defp assign_current_todo_list(conn, _) do
-    todo_list = Todo.get_todo_list!(conn.params["todo_list_id"])
-
-    conn
-    |> assign(:todo_list, todo_list)
-    |> assign(:project, todo_list.project)
-  end
-
-  defp assign_current_todo_item(conn, _) do
-    todo_item = Todo.get_todo_item!(conn.params["id"])
-
-    conn
-    |> assign(:todo_item, todo_item)
-    |> assign(:todo_list, todo_item.todo_list)
-    |> assign(:project, todo_item.todo_list.project)
+    |> redirect(to: todo_item_path(conn, :index))
   end
 end

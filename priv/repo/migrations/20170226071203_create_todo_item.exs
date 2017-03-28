@@ -6,7 +6,7 @@ defmodule Planner.Repo.Migrations.CreatePlanner.Todo.Item do
       add :id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()")
       add :todo_list_id, references(:todo_lists, on_delete: :nothing, type: :uuid)
       add :content, :text
-      add :state, :string
+      add :state, :integer, default: 0
       add :position, :integer
 
       timestamps()

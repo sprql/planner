@@ -1,0 +1,5 @@
+h2 Todo
+= render "list.html", conn: @conn, todo_items: @todo_items
+
+h2 Completed
+= render "list.html", conn: @conn, todo_items: @completed_todo_items

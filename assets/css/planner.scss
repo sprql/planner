@@ -20,51 +20,6 @@ a:hover { color: #EB3A1A; }
 
 .alert:empty { display: none; }
 
-.todo-list {
-    .card-header {
-        background: none;
-    }
-
-    .card-title,
-    .card-title a {
-        color: #333;
-    }
-
-    .todo-items {
-        margin: 0;
-        padding: 0 0 0 1rem;
-        list-style: none;
-    }
-
-    .todo-items .form-check-input {
-        cursor: pointer;
-    }
-}
-
-.project-todo-lists {
-    .todo-list {
-        border-radius: 0;
-        border-top-width: 0;
-    }
-
-    .todo-list:first-child {
-        border-top-width: 1px;
-        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
-    }
-
-    .todo-list:last-child {
-        border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
-    }
-}
-
-.card-new-project-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    &:hover { text-decoration: none; }
-}
-
 .form-line {
     .form-control {
         border-width: 0 0 1px;

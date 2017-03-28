@@ -1,0 +1,7 @@
+ul class="todo-items"
+  = for todo_item <- @todo_items do
+    li class="todo-item"
+      = form_for Todo.change_todo_item(todo_item), todo_item_path(@conn, :update, todo_item), fn f ->
+        = checkbox f, :done, class: "form-check-input", onchange: "submit()"
+      span class=""
+        = todo_item.content

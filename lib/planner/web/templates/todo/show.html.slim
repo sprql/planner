@@ -1,0 +1,7 @@
+div class="card"
+  div class="card-block"
+    div class="form-line"
+        = render Planner.Web.TodoItemView, "form.html", changeset: Todo.change_todo_item(%Todo.Item{}), action: todo_item_path(@conn, :create)
+
+    = render Planner.Web.TodoItemView, "list.html", conn: @conn, todo_items: Todo.recent_todo_items
+

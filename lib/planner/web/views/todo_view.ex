@@ -1,4 +1,4 @@
-defmodule Planner.Web.ProjectView do
+defmodule Planner.Web.TodoView do
   use Planner.Web, :view
 
   alias Planner.Todo

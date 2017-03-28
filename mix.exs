@@ -37,6 +37,7 @@ defmodule Planner.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:phoenix_slime, github: "sprql/phoenix_slime", branch: "feature/phoenix-1.3"},
+     {:ecto_enum, "~> 1.0"},
      {:credo, "~> 0.5", only: [:dev, :test]},
      {:cowboy, "~> 1.0"}]
   end
