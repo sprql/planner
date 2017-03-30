@@ -1,6 +1,3 @@
-import EctoEnum
-defenum ItemStates, todo: 0, done: 1
-
 defmodule Planner.Todo.Item do
   use Ecto.Schema
 
@@ -9,8 +6,7 @@ defmodule Planner.Todo.Item do
 
   schema "todo_items" do
     field :content, :string
-    field :state, ItemStates
-    field :done, :boolean, virtual: true
+    field :state, :string
     field :position, :integer
     belongs_to :todo_list, Planner.Todo.List
 

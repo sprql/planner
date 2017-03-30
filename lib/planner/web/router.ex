@@ -16,9 +16,17 @@ defmodule Planner.Web.Router do
   scope "/", Planner.Web do
     pipe_through :browser # Use the default browser stack
 
-    get "/", TodoController, :show
+    get "/", ProjectController, :index
 
-    resources "/todo-items", TodoItemController
+    resources "/projects", ProjectController do
+      resources "/todo-lists", TodoListController, only: [:index, :new, :create]
+    end
+
+    resources "/todo-lists", TodoListController, only: [:show, :edit, :update, :delete] do
+      resources "/todo-items", TodoItemController, only: [:index, :new, :create]
+    end
+
+    resources "/todo-items", TodoItemController, only: [:show, :edit, :update, :delete]
   end
 
   # Other scopes may use custom stacks.

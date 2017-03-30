@@ -8,28 +8,94 @@ defmodule Planner.Todo do
   alias Planner.Repo
   alias Planner.Todo.{Project, List, Item}
 
-  @recent_item_count 10
-
-  def recent_todo_items do
-    query = from ti in Item,
-            where: ti.state == ^:todo,
-            order_by: [desc: ti.inserted_at],
-            limit: @recent_item_count
-    Repo.all(query)
+  def list_projects do
+    Repo.all(Project)
   end
 
-  def list_todo_items do
-    query = from ti in Item,
-            where: ti.state == ^:todo,
-            order_by: [desc: ti.inserted_at]
-    Repo.all(query)
+  def get_project!(id), do: Repo.get!(Project, id)
+
+  def create_project(attrs \\ %{}) do
+    %Project{}
+    |> project_changeset(attrs)
+    |> Repo.insert()
   end
 
-  def list_completed_todo_items do
+  def update_project(%Project{} = project, attrs) do
+    project
+    |> project_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_project(%Project{} = project) do
+    Repo.delete(project)
+  end
+
+  def change_project(%Project{} = project) do
+    project_changeset(project, %{})
+  end
+
+  def count_project_todo_items(%Project{} = project) do
     query = from ti in Item,
-            where: ti.state == ^:done,
-            order_by: [desc: ti.updated_at]
-    Repo.all(query)
+            join: tl in List, on: tl.id == ti.todo_list_id,
+            where: tl.project_id == ^project.id
+
+    Repo.aggregate(query, :count, :id)
+  end
+
+  defp project_changeset(%Project{} = project, attrs) do
+    project
+    |> cast(attrs, [:name, :tags])
+    |> validate_required([:name])
+  end
+
+  def project_todo_lists(project) do
+    Repo.preload(project, :todo_lists).todo_lists()
+  end
+
+  def get_todo_list!(id) do
+    List
+    |> Repo.get!(id)
+    |> Repo.preload(:project)
+  end
+
+  def preload_todo_list(%List{} = todo_list) do
+    todo_list
+    |> Repo.preload(:todo_items)
+    |> Repo.preload(project: :todo_lists)
+  end
+
+  def create_todo_list(attrs \\ %{}) do
+    %List{}
+    |> todo_list_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_todo_list(%List{} = list, attrs) do
+    list
+    |> todo_list_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_todo_list(%List{} = list) do
+    Repo.delete(list)
+  end
+
+  def new_project_todo_list(%Project{} = project) do
+    todo_list_changeset(%List{}, %{project_id: project.id})
+  end
+
+  def change_todo_list(%List{} = list) do
+    todo_list_changeset(list, %{})
+  end
+
+  defp todo_list_changeset(%List{} = list, attrs) do
+    list
+    |> cast(attrs, [:project_id, :name, :description, :position, :state])
+    |> validate_required([:project_id, :name])
+  end
+
+  def todo_list_items(%List{} = todo_list) do
+    Repo.preload(todo_list, todo_items: from(ti in Item, order_by: [desc: ti.state, desc: ti.inserted_at])).todo_items
   end
 
   def get_todo_item!(id) do
@@ -64,16 +130,7 @@ defmodule Planner.Todo do
 
   defp item_changeset(%Item{} = item, attrs) do
     item
-    |> cast(attrs, [:content, :state, :done, :position])
-    |> set_todo_item_state
-    |> validate_required([:content])
-  end
-
-  defp set_todo_item_state(changeset) do
-    case get_change(changeset, :done) do
-      false -> change(changeset, state: :todo)
-      true -> change(changeset, state: :done)
-      nil -> changeset
-    end
+    |> cast(attrs, [:todo_list_id, :content, :state, :position])
+    |> validate_required([:todo_list_id, :content])
   end
 end

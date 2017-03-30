@@ -17,9 +17,10 @@ html lang="en"
     header class="navbar"
       div class="container"
         nav class="nav"
-          = link "", to: todo_path(@conn, :show), class: "navbar-brand logo"
-          = link "New todo item", to: todo_item_path(@conn, :new), class: "nav-item nav-link"
-          = link "Todo items", to: todo_item_path(@conn, :index), class: "nav-item nav-link"
+          = link "", to: project_path(@conn, :index), class: "navbar-brand logo"
+          = if @project do
+            = link @project.name, to: project_path(@conn, :show, @project), class: "nav-item nav-link"
+            = link "[edit]", to: project_path(@conn, :edit, @project), class: "nav-item nav-link"
 
     div class="container"
       p.alert.alert-info role="alert"= get_flash(@conn, :info)
