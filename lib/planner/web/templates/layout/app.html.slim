@@ -18,6 +18,7 @@ html lang="en"
       div class="container"
         nav class="nav"
           = link "", to: project_path(@conn, :index), class: "navbar-brand logo"
+          = link "Projects", to: project_path(@conn, :index), class: "nav-item nav-link"
           = if @project do
             = link @project.name, to: project_path(@conn, :show, @project), class: "nav-item nav-link"
             = link "[edit]", to: project_path(@conn, :edit, @project), class: "nav-item nav-link"
