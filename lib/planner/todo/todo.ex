@@ -44,7 +44,7 @@ defmodule Planner.Todo do
 
   defp project_changeset(%Project{} = project, attrs) do
     project
-    |> cast(attrs, [:name, :tags])
+    |> cast(attrs, [:name])
     |> validate_required([:name])
   end
 

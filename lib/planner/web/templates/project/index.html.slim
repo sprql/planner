@@ -11,9 +11,6 @@ div class="card-deck"
         h5 class="card-title"
           = link project.name, to: project_path(@conn, :show, project)
 
-        p class="card-text"
-          = list_as_string(project.tags)
-
         small class="card-text text-muted"
           = icon_tag("list")
           = " "
