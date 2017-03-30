@@ -35,6 +35,7 @@ defmodule Planner.Todo do
   def get_todo_item!(id) do
     Item
     |> Repo.get!(id)
+    |> Repo.preload(todo_list: :project)
   end
 
   def create_todo_item(attrs \\ %{}) do
@@ -57,9 +58,13 @@ defmodule Planner.Todo do
     item_changeset(item, %{})
   end
 
+  def todo_list_change_item(%List{} = todo_list) do
+    item_changeset(%Item{}, %{todo_list_id: todo_list.id})
+  end
+
   defp item_changeset(%Item{} = item, attrs) do
     item
-    |> cast(attrs, [:content, :tags, :state, :done, :position])
+    |> cast(attrs, [:content, :state, :done, :position])
     |> set_todo_item_state
     |> validate_required([:content])
   end
