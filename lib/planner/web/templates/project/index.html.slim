@@ -8,10 +8,9 @@ div class="card-deck"
   = for project <- @projects do
     div class="card"
       div class="card-block"
-        h5 class="card-title"
-          = link project.name, to: project_path(@conn, :show, project)
+        h5 = link project.name, to: project_path(@conn, :show, project)
 
-        small class="card-text text-muted"
-          = icon_tag("list")
-          = " "
-          = Todo.count_project_todo_items(project)
+      div class="card-footer"
+        ul class="card-text text-muted list-unstyled"
+          = for todo_list <- Todo.project_todo_lists(project) do
+            li = link todo_list.name, to: todo_list_path(@conn, :show, todo_list)
