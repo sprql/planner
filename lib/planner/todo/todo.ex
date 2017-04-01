@@ -95,7 +95,7 @@ defmodule Planner.Todo do
   end
 
   def todo_list_items(%List{} = todo_list) do
-    Repo.preload(todo_list, todo_items: from(ti in Item, order_by: [desc: ti.state, desc: ti.inserted_at])).todo_items
+    Repo.preload(todo_list, todo_items: from(ti in Item, order_by: [desc: ti.state, asc: ti.inserted_at])).todo_items
   end
 
   def get_todo_item!(id) do
