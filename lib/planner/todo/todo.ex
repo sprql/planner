@@ -98,6 +98,14 @@ defmodule Planner.Todo do
     Repo.preload(todo_list, todo_items: from(ti in Item, order_by: [desc: ti.state, asc: ti.inserted_at])).todo_items
   end
 
+  def open_todo_list_items(%List{} = todo_list) do
+    Repo.preload(todo_list, todo_items: from(ti in Item, where: ti.state == "open", order_by: [asc: ti.inserted_at])).todo_items
+  end
+
+  def completed_todo_list_items(%List{} = todo_list) do
+    Repo.preload(todo_list, todo_items: from(ti in Item, where: ti.state == "completed", order_by: [desc: ti.updated_at])).todo_items
+  end
+
   def get_todo_item!(id) do
     Item
     |> Repo.get!(id)
@@ -126,6 +134,15 @@ defmodule Planner.Todo do
 
   def todo_list_change_item(%List{} = todo_list) do
     item_changeset(%Item{}, %{todo_list_id: todo_list.id})
+  end
+
+  def complete_todo_item(%Item{} = item, is_completed) do
+    state = case is_completed do
+      "true" -> "completed"
+      "false" -> "open"
+    end
+
+    update_todo_item(item, %{state: state})
   end
 
   defp item_changeset(%Item{} = item, attrs) do

@@ -6,7 +6,7 @@ defmodule Planner.Todo.Item do
 
   schema "todo_items" do
     field :content, :string
-    field :state, :string
+    field :state, :string, default: "open"
     field :position, :integer
     belongs_to :todo_list, Planner.Todo.List
 

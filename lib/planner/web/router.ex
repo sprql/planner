@@ -27,6 +27,7 @@ defmodule Planner.Web.Router do
     end
 
     resources "/todo-items", TodoItemController, only: [:show, :edit, :update, :delete]
+    put "/todo-items/:id/complete", TodoItemController, :complete
   end
 
   # Other scopes may use custom stacks.

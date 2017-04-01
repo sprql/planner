@@ -1,0 +1,6 @@
+= form_for Todo.change_todo_item(@todo_item), todo_item_path(@conn, :complete, @todo_item), fn f ->
+    = checkbox f, :state, checked_value: "completed", class: "form-check-input", onchange: "submit()"
+span class="todo-item-content"
+  span class="todo-item-date label label-default"
+  = @todo_item.updated_at
+  = link @todo_item.content, to: todo_item_path(@conn, :edit, @todo_item), class: "todo-item-link"

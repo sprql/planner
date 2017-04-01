@@ -59,6 +59,21 @@ defmodule Planner.Web.TodoItemController do
     |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
   end
 
+  def complete(conn, %{"id" => id, "item" => todo_item_params}) do
+    todo_item = Todo.get_todo_item!(id)
+
+    case Todo.complete_todo_item(todo_item, todo_item_params["state"]) do
+      {:ok, todo_item} ->
+        conn
+        |> put_flash(:info, "Todo item updated successfully.")
+        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:info, "Todo item update failed.")
+        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
+    end
+  end
+
   defp assign_current_todo_list(conn, _) do
     todo_list = Todo.get_todo_list!(conn.params["todo_list_id"])
 
