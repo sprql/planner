@@ -15,12 +15,14 @@ html lang="en"
   body
     header class="navbar"
       div class="container"
-        nav class="nav"
-          = link "", to: project_path(@conn, :index), class: "navbar-brand logo"
-          = link "Projects", to: project_path(@conn, :index), class: "nav-item nav-link"
+        nav class="nav nav-tabs"
+          li = link "", to: project_path(@conn, :index), class: "navbar-brand logo"
+          li = link "Projects", to: project_path(@conn, :index), class: "nav-item nav-link"
           = if @project do
-            = link @project.name, to: project_path(@conn, :show, @project), class: "nav-item nav-link"
-            = link "[edit]", to: project_path(@conn, :edit, @project), class: "nav-item nav-link"
+            li class="nav-item active nav-link"
+              = link @project.name, to: project_path(@conn, :show, @project), class: ""
+              = " "
+              = link icon_tag("cog"), to: project_path(@conn, :edit, @project), class: ""
 
     div class="container"
       p.alert.alert-info role="alert"= get_flash(@conn, :info)

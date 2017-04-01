@@ -1,9 +1,9 @@
 div class="card-deck"
   div class="card"
-    div class="card-block"
-      = link to: project_path(@conn, :new), class: "card-new-project-link" do
-        i class="fa fa-plus-circle fa-2x"
-        span New project
+    div class="card-block d-flex justify-content-center flex-column"
+      = link to: project_path(@conn, :new), class: "align-self-center nav-link text-center" do
+        = icon_tag "plus-circle fa-2x"
+        h6 New project
 
   = for project <- @projects do
     div class="card"
