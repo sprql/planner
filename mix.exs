@@ -38,6 +38,7 @@ defmodule Planner.Mixfile do
      {:gettext, "~> 0.11"},
      {:phoenix_slime, github: "sprql/phoenix_slime", branch: "feature/phoenix-1.3"},
      {:credo, "~> 0.5", only: [:dev, :test]},
+     {:timex, "~> 3.0"},
      {:cowboy, "~> 1.0"}]
   end
 
