@@ -1,5 +1,5 @@
-= form_for Todo.change_todo_item(@todo_item), todo_item_path(@conn, :complete, @todo_item), fn f ->
-    = checkbox f, :state, checked_value: "completed", class: "form-check-input", onchange: "submit()"
+= form_for Todo.change_todo_item(@todo_item), todo_item_path(@conn, :complete, @todo_item), ["up-target": ".todo-list", "up-history": "false", "up-autosubmit": "true"], fn f ->
+    = checkbox f, :state, checked_value: "completed", class: "form-check-input"
 span class="todo-item-content"
   small class="todo-item-date text-muted"
     = Timex.format!(@todo_item.updated_at, "%d %b", :strftime)

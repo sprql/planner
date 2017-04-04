@@ -1,4 +1,4 @@
-= form_for Todo.change_todo_item(@todo_item), todo_item_path(@conn, :complete, @todo_item), fn f ->
-    = checkbox f, :state, class: "form-check-input", onchange: "submit()"
+= form_for Todo.change_todo_item(@todo_item), todo_item_path(@conn, :complete, @todo_item), ["up-target": ".todo-list", "up-history": "false", "up-autosubmit": "true"], fn f ->
+    = checkbox f, :state, class: "form-check-input"
 span class="todo-item-content"
   = link @todo_item.content, to: todo_item_path(@conn, :edit, @todo_item), class: "todo-item-link"
