@@ -1,8 +1,8 @@
 div class="row"
   div class="col col-md-9 col-sm-9"
     div class="project-todo-lists"
-      - todo_list = List.first(Todo.project_todo_lists(@project))
-      = render Planner.Web.TodoListView, "list.html", conn: @conn, todo_list: todo_list
+      = for todo_list <- Todo.project_todo_lists(@project) do
+        = render Planner.Web.TodoListView, "list.html", conn: @conn, todo_list: todo_list
 
   div class="col col-md-3 col-sm-3"
     aside class="sidebar"
