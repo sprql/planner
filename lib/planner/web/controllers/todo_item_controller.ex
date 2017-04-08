@@ -5,6 +5,7 @@ defmodule Planner.Web.TodoItemController do
 
   plug :assign_current_todo_list when action in [:index, :new, :create]
   plug :assign_current_todo_item when action in [:show, :edit, :update, :delete]
+  plug :set_layout_for_request when action in [:complete]
 
   def index(conn, _params) do
     todo_items = Todo.todo_list_items(conn.assigns.todo_list)
@@ -64,9 +65,8 @@ defmodule Planner.Web.TodoItemController do
 
     case Todo.complete_todo_item(todo_item, todo_item_params["state"]) do
       {:ok, todo_item} ->
-        conn
-        |> put_flash(:info, "Todo item updated successfully.")
-        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
+        todo_list = Todo.get_todo_list!(todo_item.todo_list_id)
+        render(conn, Planner.Web.TodoListView, "list.html", todo_list: todo_list)
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:info, "Todo item update failed.")
@@ -89,5 +89,12 @@ defmodule Planner.Web.TodoItemController do
     |> assign(:todo_item, todo_item)
     |> assign(:todo_list, todo_item.todo_list)
     |> assign(:project, todo_item.todo_list.project)
+  end
+
+  def set_layout_for_request(conn, _) do
+    case get_req_header(conn, "x-requested-with") do
+      ["XMLHttpRequest"] -> put_layout(conn, false)
+      _ -> conn
+    end
   end
 end
