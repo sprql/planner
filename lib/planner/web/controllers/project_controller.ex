@@ -29,8 +29,9 @@ defmodule Planner.Web.ProjectController do
 
   def show(conn, %{"id" => id}) do
     project = Todo.get_project!(id)
+    todo_lists = Todo.project_todo_lists_with_items(project)
 
-    render(conn, "show.html", project: project)
+    render(conn, "show.html", project: project, todo_lists: todo_lists)
   end
 
   def edit(conn, %{"id" => id}) do

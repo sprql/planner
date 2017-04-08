@@ -66,7 +66,7 @@ defmodule Planner.Web.TodoListController do
   end
 
   defp assign_todo_list(conn, _) do
-    todo_list = Todo.get_todo_list!(conn.params["id"])
+    todo_list = Todo.get_todo_list!(conn.params["id"]) |> Todo.preload_todo_list
 
     conn
     |> assign(:todo_list, todo_list)

@@ -3,9 +3,9 @@ defmodule Planner.Web.TodoItemController do
 
   alias Planner.Todo
 
-  plug :assign_current_todo_list when action in [:index, :new, :create]
+  plug :assign_current_todo_list when action in [:index, :new]
   plug :assign_current_todo_item when action in [:show, :edit, :update, :delete]
-  plug :set_layout_for_request when action in [:complete]
+  plug :set_layout_for_request when action in [:create, :complete]
 
   def index(conn, _params) do
     todo_items = Todo.todo_list_items(conn.assigns.todo_list)
@@ -20,9 +20,8 @@ defmodule Planner.Web.TodoItemController do
   def create(conn, %{"item" => todo_item_params}) do
     case Todo.create_todo_item(todo_item_params) do
       {:ok, todo_item} ->
-        conn
-        |> put_flash(:info, "Todo item created successfully.")
-        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
+        todo_list = Todo.get_todo_list!(todo_item.todo_list_id) |> Todo.preload_todo_list
+        render(conn, Planner.Web.TodoListView, "list.html", todo_list: todo_list)
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -62,16 +61,10 @@ defmodule Planner.Web.TodoItemController do
 
   def complete(conn, %{"id" => id, "item" => todo_item_params}) do
     todo_item = Todo.get_todo_item!(id)
+    Todo.complete_todo_item(todo_item, todo_item_params["state"])
+    todo_list = Todo.get_todo_list!(todo_item.todo_list_id)
 
-    case Todo.complete_todo_item(todo_item, todo_item_params["state"]) do
-      {:ok, todo_item} ->
-        todo_list = Todo.get_todo_list!(todo_item.todo_list_id)
-        render(conn, Planner.Web.TodoListView, "list.html", todo_list: todo_list)
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_flash(:info, "Todo item update failed.")
-        |> redirect(to: todo_list_path(conn, :show, todo_item.todo_list_id))
-    end
+    render(conn, Planner.Web.TodoListView, "list.html", todo_list: todo_list)
   end
 
   defp assign_current_todo_list(conn, _) do

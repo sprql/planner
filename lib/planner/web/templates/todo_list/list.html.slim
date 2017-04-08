@@ -8,13 +8,13 @@ div class="card todo-list" id=@todo_list.id
 
   div class="card-block"
     ul class="todo-items"
-      = for todo_item <- Todo.open_todo_list_items(@todo_list) do
+      = for todo_item <- Todo.open_todo_list_items(@todo_list.todo_items) do
         li class="todo-item"
           = render Planner.Web.TodoItemView, "item.html", conn: @conn, todo_item: todo_item
       li class="form-line"
         = render Planner.Web.TodoItemView, "form.html", changeset: Todo.todo_list_change_item(@todo_list), action: todo_list_todo_item_path(@conn, :create, @todo_list)
   div class="card-footer"
     ul class="todo-items"
-      = for todo_item <- Todo.completed_todo_list_items(@todo_list) do
+      = for todo_item <- Todo.completed_todo_list_items(@todo_list.todo_items) do
         li class="todo-item"
           = render Planner.Web.TodoItemView, "completed_item.html", conn: @conn, todo_item: todo_item

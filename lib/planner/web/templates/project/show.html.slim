@@ -1,7 +1,7 @@
 div class="row"
   div class="col col-md-9 col-sm-9"
     div class="project-todo-lists"
-      = for todo_list <- Todo.project_todo_lists(@project) do
+      = for todo_list <- @todo_lists do
         = render Planner.Web.TodoListView, "list.html", conn: @conn, todo_list: todo_list
 
   div class="col col-md-3 col-sm-3"
@@ -9,5 +9,5 @@ div class="row"
       = link "New todo list", to: project_todo_list_path(@conn, :new, @project)
       hr
       ul class="list-unstyled"
-        = for todo_list <- Todo.project_todo_lists(@project) do
+        = for todo_list <- @todo_lists do
           li = link todo_list.name, to: todo_list_path(@conn, :show, todo_list)

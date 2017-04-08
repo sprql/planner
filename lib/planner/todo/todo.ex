@@ -52,10 +52,12 @@ defmodule Planner.Todo do
     Repo.preload(project, :todo_lists).todo_lists()
   end
 
+  def project_todo_lists_with_items(project) do
+    Repo.preload(project, todo_lists: :todo_items).todo_lists()
+  end
+
   def get_todo_list!(id) do
-    List
-    |> Repo.get!(id)
-    |> Repo.preload(:project)
+    Repo.get!(List, id)
   end
 
   def preload_todo_list(%List{} = todo_list) do
@@ -95,21 +97,23 @@ defmodule Planner.Todo do
   end
 
   def todo_list_items(%List{} = todo_list) do
-    Repo.preload(todo_list, todo_items: from(ti in Item, order_by: [desc: ti.state, asc: ti.inserted_at])).todo_items
+    Repo.preload(todo_list, :todo_items).todo_items
   end
 
-  def open_todo_list_items(%List{} = todo_list) do
-    Repo.preload(todo_list, todo_items: from(ti in Item, where: ti.state == "open", order_by: [asc: ti.inserted_at])).todo_items
+  def open_todo_list_items(todo_items) do
+    todo_items
+    |> Enum.filter(fn(item) -> item.state == "open" end)
+    |> Enum.sort_by(fn(item) -> item.inserted_at end)
   end
 
-  def completed_todo_list_items(%List{} = todo_list) do
-    Repo.preload(todo_list, todo_items: from(ti in Item, where: ti.state == "completed", order_by: [desc: ti.updated_at])).todo_items
+  def completed_todo_list_items(todo_items) do
+    todo_items
+    |> Enum.filter(fn(item) -> item.state == "completed" end)
+    |> Enum.sort_by(fn(item) -> item.updated_at end, &>=/2)
   end
 
   def get_todo_item!(id) do
-    Item
-    |> Repo.get!(id)
-    |> Repo.preload(todo_list: :project)
+    Repo.get!(Item, id)
   end
 
   def create_todo_item(attrs \\ %{}) do
